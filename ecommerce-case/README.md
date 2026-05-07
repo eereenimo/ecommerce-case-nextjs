@@ -1,36 +1,203 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VisioCreate E-Commerce Case
 
-## Getting Started
+Modern, responsive ve API tabanlı bir e-ticaret frontend uygulaması.
 
-First, run the development server:
+Bu proje, verilen Figma tasarımı baz alınarak **Next.js App Router**, **TypeScript**, **Tailwind CSS** ve **Zustand** kullanılarak geliştirilmiştir. Proje tamamen responsive yapıdadır ve ürün verileri için **Fake Store API** kullanılmaktadır.
+
+---
+
+# 🚀 Tech Stack
+
+* Next.js 15 (App Router)
+* TypeScript
+* Tailwind CSS
+* Zustand
+* Fake Store API
+
+---
+
+# ✨ Features
+
+* Fully responsive modern ecommerce UI
+* Dynamic product listing
+* Dynamic product detail pages
+* Add to cart functionality
+* Wishlist system
+* Authentication flow
+* Protected routes
+* Checkout flow
+* Persistent cart/wishlist state
+* Responsive account dashboard
+* Loading skeletons & UX states
+
+---
+
+# 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/
+├── components/
+├── services/
+├── store/
+├── types/
+├── hooks/
+├── lib/
+└── constants/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### app/
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Contains all Next.js App Router pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### components/
 
-## Learn More
+Reusable UI components separated by feature.
 
-To learn more about Next.js, take a look at the following resources:
+### services/
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+API layer and fetch functions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### store/
 
-## Deploy on Vercel
+Global Zustand stores:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Cart
+* Wishlist
+* Auth
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### types/
+
+Centralized TypeScript interfaces.
+
+---
+
+# 🔌 API Integration
+
+This project uses:
+
+Fake Store API
+
+Main endpoints used:
+
+* Products
+* Product Details
+* Categories
+* Authentication
+
+The project architecture is prepared for future backend integration such as Laravel or Node.js APIs.
+
+---
+
+# 🛒 Ecommerce Flow
+
+```text
+Home
+→ Shop
+→ Product Detail
+→ Cart
+→ Checkout
+→ Order Complete
+```
+
+---
+
+# 🔐 Authentication
+
+Authentication is implemented using Fake Store API login endpoint.
+
+Protected routes:
+
+* /checkout
+* /my-account
+* /my-account/orders
+* /my-account/address
+* /my-account/wishlist
+
+Unauthenticated users are redirected to:
+
+```text
+/sign-in
+```
+
+---
+
+# 🧠 State Management
+
+Global state management is handled with Zustand.
+
+Stores:
+
+* useCartStore
+* useWishlistStore
+* useAuthStore
+
+Persistence is implemented using localStorage middleware.
+
+---
+
+# 📱 Responsive Design
+
+The project follows a mobile-first responsive approach.
+
+Responsive support includes:
+
+* Mobile
+* Tablet
+* Desktop
+
+---
+
+# ⚡ Performance & UX
+
+* Loading skeletons
+* Optimized images using next/image
+* Hydration-safe client components
+* Dynamic routing
+* Persistent cart and auth state
+
+---
+
+# 🔑 Demo Login
+
+```text
+username: mor_2314
+password: 83r5^_
+```
+
+---
+
+# 🛠️ Installation
+
+```bash
+git clone <repo-url>
+
+cd project-name
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 🌐 Run Production Build
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+# 📌 Notes
+
+* This project is frontend-focused.
+* Backend operations are simulated using Fake Store API.
+* Architecture is scalable and prepared for real backend integration.
+
+---
+
+# 👨‍💻 Developer
+
+Eren Serdaroğlu
