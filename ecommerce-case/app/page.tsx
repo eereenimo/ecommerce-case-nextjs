@@ -13,7 +13,7 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    <div className="pb-20">
+    <div>
       {/* Hero Section */}
       <Hero />
 
