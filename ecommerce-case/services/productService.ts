@@ -54,6 +54,7 @@ const mapToFurniture = (product: Product): Product => {
     title: map.titles[titleIndex],
     image: map.images[imageIndex],
     category: map.category,
+    oldPrice: product.price * 1.5,
     description: `A premium ${map.titles[titleIndex].toLowerCase()} designed for modern Scandinavian interiors. Crafted with high-quality materials to ensure both durability and elegance in your home workspace or living area.`
   };
 };

@@ -9,6 +9,7 @@ export interface Product {
     rate: number;
     count: number;
   };
+  oldPrice?: number;
 }
 
 export interface Category {
