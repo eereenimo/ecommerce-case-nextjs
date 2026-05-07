@@ -1,87 +1,98 @@
-import React from "react";
-import Image from "next/image";
-import { getProduct, getProducts } from "@/lib/api";
-import { notFound } from "next/navigation";
+'use client';
 
-// Generate static params for all products (SSG)
-export async function generateStaticParams() {
-  const products = await getProducts();
-  return products.map((product) => ({
-    id: product.id.toString(),
-  }));
-}
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { ProductGallery } from '@/components/product/ProductGallery';
+import { ProductInfo } from '@/components/product/ProductInfo';
+import { ProductTabs } from '@/components/product/ProductTabs';
+import { RelatedProducts } from '@/components/product/RelatedProducts';
+import Newsletter from '@/components/home/Newsletter';
+import { productService } from '@/services/productService';
+import { Product } from '@/types/product';
 
-import AddToCartButton from "@/components/product/AddToCartButton";
+export default function ProductDetailPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
-  const { id } = params;
-  
-  try {
-    const product = await getProduct(id);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      try {
+        setLoading(true);
+        const data = await productService.getProductById(Number(id));
+        setProduct(data);
+      } catch (err) {
+        setError('Product not found.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (!product) {
-      return notFound();
-    }
+    fetchProduct();
+  }, [id]);
 
+  if (loading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
-          {/* Product Image */}
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-gray-100 bg-white p-12 dark:border-gray-800">
-            <Image
-              src={product.image}
-              alt={product.title}
-              fill
-              className="object-contain p-8"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-
-          {/* Product Info */}
-          <div className="flex flex-col justify-center">
-            <div className="mb-4 flex items-center space-x-2">
-              <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
-                {product.category}
-              </span>
-              <div className="flex items-center text-sm text-gray-500">
-                <svg className="mr-1 h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                {product.rating.rate} ({product.rating.count} reviews)
-              </div>
-            </div>
-
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-white">
-              {product.title}
-            </h1>
-
-            <p className="mt-4 text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              ${product.price.toFixed(2)}
-            </p>
-
-            <div className="mt-8">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white uppercase tracking-wider">Description</h3>
-              <p className="mt-4 text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                {product.description}
-              </p>
-            </div>
-
-            <div className="mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <AddToCartButton product={product} />
-              <button className="flex items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-4 text-base font-bold text-gray-900 shadow-sm transition-all hover:bg-gray-50 active:scale-95 dark:border-gray-700 dark:bg-transparent dark:text-white dark:hover:bg-gray-800">
-                <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                Wishlist
-              </button>
-            </div>
-          </div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 animate-pulse">
+          <div className="w-12 h-12 border-4 border-gray-100 border-t-black rounded-full animate-spin" />
+          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Loading Product...</span>
         </div>
       </div>
     );
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return notFound();
   }
+
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-6">
+        <h1 className="text-2xl font-bold">{error || 'Product not found'}</h1>
+        <Link href="/shop" className="bg-black text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest">
+          Back to Shop
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-white">
+      {/* Breadcrumb */}
+      <nav className="max-w-7xl mx-auto px-5 md:px-10 py-6 md:py-8 flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <Link href="/" className="text-sm text-gray-500 hover:text-black transition-colors">Home</Link>
+        <span className="text-gray-300">/</span>
+        <Link href="/shop" className="text-sm text-gray-500 hover:text-black transition-colors">Shop</Link>
+        <span className="text-gray-300">/</span>
+        <span className="text-sm text-gray-500 capitalize">{product.category}</span>
+        <span className="text-gray-300">/</span>
+        <span className="text-sm text-[#111827] font-semibold truncate max-w-[200px]">{product.title}</span>
+      </nav>
+
+      {/* Product Hero Section */}
+      <section className="max-w-7xl mx-auto px-5 md:px-10 flex flex-col lg:flex-row gap-8 lg:gap-16 py-4 lg:py-6">
+        {/* Left: Gallery */}
+        <div className="flex-1 lg:max-w-[580px]">
+          <ProductGallery product={product} />
+        </div>
+
+        {/* Right: Info */}
+        <div className="flex-1 lg:pt-2">
+          <ProductInfo product={product} />
+        </div>
+      </section>
+
+      {/* Product Tabs (Description, Reviews, etc.) */}
+      <section className="max-w-7xl mx-auto px-5 md:px-10 mt-12 md:mt-16">
+        <ProductTabs />
+      </section>
+
+      {/* Related Products */}
+      <section className="max-w-7xl mx-auto px-5 md:px-10 border-t border-gray-100">
+        <RelatedProducts category={product.category} excludeId={product.id} />
+      </section>
+
+      <Newsletter />
+    </main>
+  );
 }

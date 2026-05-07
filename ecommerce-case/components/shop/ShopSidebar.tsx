@@ -3,13 +3,11 @@
 import React from 'react';
 
 const categories = [
-  'All Rooms',
+  'All Products',
   'Living Room',
-  'Bedroom',
-  'Kitchen',
-  'Bathroom',
-  'Dining',
-  'Outdoor',
+  'Bedroom & Textiles',
+  'Lamps & Lighting',
+  'Home Accessories',
 ];
 
 const prices = [

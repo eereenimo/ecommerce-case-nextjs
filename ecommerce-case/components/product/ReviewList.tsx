@@ -2,7 +2,16 @@
 
 import React from 'react';
 
-const reviews = [
+interface Review {
+  id: number;
+  name: string;
+  date: string;
+  rating: number;
+  text: string;
+  avatar: string;
+}
+
+const reviews: Review[] = [
   {
     id: 1,
     name: 'Sofia Harree',
@@ -96,7 +105,7 @@ export const ReviewList = () => {
 
       {/* Reviews List */}
       <div className="flex flex-col">
-        {reviews.map((review, idx) => (
+        {reviews.map((review: Review, idx: number) => (
           <div 
             key={review.id} 
             className={`py-8 flex flex-col md:flex-row gap-6 ${idx !== reviews.length - 1 ? 'border-b border-gray-100' : ''}`}

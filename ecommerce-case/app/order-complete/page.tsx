@@ -1,5 +1,4 @@
-import React from 'react';
-import { OrderCompleteSteps } from '@/components/order/OrderCompleteSteps';
+import { CheckoutSteps } from '@/components/checkout/CheckoutSteps';
 import { OrderSuccessCard } from '@/components/order/OrderSuccessCard';
 
 export const metadata = {
@@ -13,7 +12,7 @@ export default function OrderCompletePage() {
       {/* Top Header Section */}
       <section className="max-w-4xl mx-auto px-5 md:px-10 py-10 md:py-16 flex flex-col items-center gap-10">
         <h1 className="text-3xl md:text-5xl font-bold text-[#111111]">Complete!</h1>
-        <OrderCompleteSteps />
+        <CheckoutSteps currentStep="complete" />
       </section>
 
       {/* Main Success Card Area */}

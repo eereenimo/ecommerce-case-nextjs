@@ -16,7 +16,7 @@ export default function CheckoutPage() {
       {/* Top Header Section */}
       <section className="max-w-[1100px] mx-auto px-5 md:px-10 py-8 md:py-12 flex flex-col items-center gap-6">
         <h1 className="text-3xl md:text-4xl font-bold text-[#111111]">Check Out</h1>
-        <CheckoutSteps />
+        <CheckoutSteps currentStep="checkout" />
       </section>
 
       {/* Main Content Area */}
